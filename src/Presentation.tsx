@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import { AbsoluteFill, Img, Sequence } from "remotion";
+import { ColorBars } from "./Components/ColorBars";
+import { Title } from "./Components/Title";
 
 interface Slide {
   id: number;
@@ -22,7 +24,7 @@ export const Presentation: React.FC<PresentationProps> = ({
   color,
 }) => {
   const durationInFrames = 200;
-  const avatar = { width: "10%", borderRadius: "50%" };
+  const avatar = { width: "30%" };
 
   return (
     <Fragment>
@@ -34,23 +36,31 @@ export const Presentation: React.FC<PresentationProps> = ({
             durationInFrames={durationInFrames}
             fadeOut
           >
-            {/* <ColorBars /> */}
-            <h1 style={{ margin: 150, color: color }}>{text}</h1>
-            {/* <Title titleText={text} titleColor={color}/> */}
-            {/* <Title
-              titleText={slide.title}
-              titleColor={slide.color}
-              avatar={slide.avatar}
-              by={slide.by}
-              description={slide.description} />
-            <By
-              titleText={slide.by}
-              titleColor={slide.color}
-              avatar={slide.avatar}
-              by={slide.by}
-              description={slide.description} />
-            <Img src={slide.avatar} style={avatar} />
-            {slide.id === 1 ? <CheckboxOptions /> : <Description />} */}
+            <ColorBars />
+            <h1
+              style={{
+                marginTop: 150,
+                marginLeft: 120,
+                color: color,
+                position: "absolute",
+              }}
+            >
+              {text}
+            </h1>
+            <Title titleText={slide.title} titleColor={color} />
+            <div
+              style={{
+                position: "absolute",
+                marginTop: 150,
+                marginLeft: 250,
+                display: "flex",
+                textAlign: "center",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Img src={slide.avatar} style={avatar} />
+            </div>
           </Sequence>
         ))}
       </AbsoluteFill>

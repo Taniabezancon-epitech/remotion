@@ -2,6 +2,8 @@ import { CSSProperties, useRef, useState } from "react";
 import { Presentation } from "./Presentation";
 import { Player, PlayerRef } from "@remotion/player";
 import { slidesData } from "./Shared/data";
+import { buttonStyles, inputStyles, rectangleStyles } from "./Shared/styles";
+import ButtonGroup from "./Components/Player/ButtonGroup";
 
 const styles: CSSProperties = {
   display: "flex",
@@ -11,45 +13,7 @@ const styles: CSSProperties = {
   width: "20%",
 };
 
-const buttonStyles: CSSProperties = {
-  padding: 10,
-  border: "none",
-  backgroundColor: "#3F51B5",
-  fontWeight: 600,
-  borderRadius: 5,
-  width: "100%",
-  height: 60,
-  fontSize: 18,
-  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-  cursor: "pointer",
-  margin: 15,
-};
-
-const inputStyles: CSSProperties = {
-  padding: 10,
-  border: "none",
-  color: "black", // Ajout de la propriété color avec la valeur "black"
-  fontWeight: 600,
-  borderRadius: 5,
-  width: "20%",
-  height: 60,
-  fontSize: 18,
-  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
-  cursor: "pointer",
-  marginTop: 10,
-  marginLeft: 300,
-  position: "absolute",
-};
-
-const rectangleStyles: CSSProperties = {
-  backgroundColor: "white",
-  width: "400%",
-  height: "100px",
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "flex-end",
-  borderRadius: 5,
-};
+const colors = ["Green", "Blue", "Yellow", "Gray"];
 
 export const RemotionRoot: React.FC = () => {
   const playerRef = useRef<PlayerRef>(null);
@@ -76,26 +40,13 @@ export const RemotionRoot: React.FC = () => {
         placeholder="Animation text"
         onChange={updateText}
       />
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <button
-          style={{ ...buttonStyles, backgroundColor: "Green" }}
-          onClick={() => changeColor("Green")}
-        />
-        <button
-          style={{ ...buttonStyles, backgroundColor: "Blue" }}
-          onClick={() => changeColor("Blue")}
-        />
-        <button
-          style={{ ...buttonStyles, backgroundColor: "Yellow" }}
-          onClick={() => changeColor("Yellow")}
-        />
-        <button
-          style={{ ...buttonStyles, backgroundColor: "Gray" }}
-          onClick={toggleImage}
-        >
-          {showImage ? "Hide track" : "Show track"}
-        </button>
-      </div>
+      <ButtonGroup colors={colors} onClick={changeColor} />
+      <button
+        style={{ ...buttonStyles, backgroundColor: "Gray" }}
+        onClick={toggleImage}
+      >
+        {showImage ? "Hide track" : "Show track"}
+      </button>
       {showImage && (
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={rectangleStyles}>

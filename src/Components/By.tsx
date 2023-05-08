@@ -3,8 +3,8 @@ import { spring, useCurrentFrame, useVideoConfig } from "remotion";
 import { by } from "../Shared/styles";
 
 const word: React.CSSProperties = {
-  marginLeft: 10,
-  marginRight: 10,
+  // marginLeft: 10,
+  // marginRight: 10,
   display: "inline-block",
 };
 

@@ -75,3 +75,42 @@ export const description: React.CSSProperties = {
   alignItems: "center",
   justifyContent: "center",
 };
+
+
+export const buttonStyles: React.CSSProperties = {
+  padding: 10,
+  border: "none",
+  fontWeight: 600,
+  borderRadius: 5,
+  width: "100%",
+  height: 60,
+  fontSize: 18,
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
+  cursor: "pointer",
+  margin: 15,
+};
+
+export const inputStyles: React.CSSProperties = {
+  padding: 10,
+  border: "none",
+  fontWeight: 600,
+  borderRadius: 5,
+  width: "20%",
+  height: 60,
+  fontSize: 18,
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.25)",
+  cursor: "pointer",
+  marginTop: 10,
+  marginLeft: 300,
+  position: "absolute",
+};
+
+export const rectangleStyles: React.CSSProperties = {
+  backgroundColor: "white",
+  width: "400%",
+  height: "100px",
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "flex-end",
+  borderRadius: 5,
+};
