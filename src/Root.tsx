@@ -1,7 +1,7 @@
 import { CSSProperties, useRef, useState } from "react";
 import { Presentation } from "./Presentation";
 import { Player, PlayerRef } from "@remotion/player";
-import { Img } from "remotion";
+import { slidesData } from "./Shared/data";
 
 const styles: CSSProperties = {
   display: "flex",
@@ -28,7 +28,7 @@ const buttonStyles: CSSProperties = {
 const inputStyles: CSSProperties = {
   padding: 10,
   border: "none",
-  color: "#fff",
+  color: "black", // Ajout de la propriété color avec la valeur "black"
   fontWeight: 600,
   borderRadius: 5,
   width: "20%",
@@ -43,18 +43,12 @@ const inputStyles: CSSProperties = {
 
 const rectangleStyles: CSSProperties = {
   backgroundColor: "white",
-  width: "300%",
+  width: "400%",
   height: "100px",
   display: "flex",
   flexDirection: "row",
   alignItems: "flex-end",
-};
-
-const lineStyles: CSSProperties = {
-  height: "70%",
-  width: "1px",
-  backgroundColor: "black",
-  marginLeft: "33%",
+  borderRadius: 5,
 };
 
 export const RemotionRoot: React.FC = () => {
@@ -105,7 +99,7 @@ export const RemotionRoot: React.FC = () => {
       {showImage && (
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={rectangleStyles}>
-            <h1 style={{ color: color}}>{text}</h1>{" "}
+            <h1 style={{ color: color }}>{text}</h1>{" "}
           </div>
         </div>
       )}
@@ -117,7 +111,7 @@ export const RemotionRoot: React.FC = () => {
         controls
         durationInFrames={30 * 60}
         fps={60}
-        inputProps={{ text, color }}
+        inputProps={{ slidesData, text, color }}
       />
     </div>
   );
