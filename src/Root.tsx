@@ -1,9 +1,18 @@
-import { CSSProperties, useRef, useState } from "react";
-import { Presentation } from "./Presentation";
+import React, { CSSProperties, useEffect, useRef, useState } from "react";
 import { Player, PlayerRef } from "@remotion/player";
-import { slidesData } from "./Shared/data";
-import { buttonStyles, inputStyles, rectangleStyles } from "./Shared/styles";
-import ButtonGroup from "./Components/Player/ButtonGroup";
+import { Presentation } from "./Presentation";
+import { approvalSlides, rejectedSlides, Slide, slidesData } from "./Shared/data";
+import { ButtonGroup } from "./Components/Player/ButtonGroup";
+import { ColorPicker } from "./Components/Player/ColorPicker";
+import { TextInput } from "./Components/Player/TextInput";
+
+interface InputProps {
+  data: Slide[];
+  text: string;
+  color: string;
+  currentSlideIndex?: number;
+  lastSlideIndex: number;
+}
 
 const styles: CSSProperties = {
   display: "flex",
@@ -13,13 +22,32 @@ const styles: CSSProperties = {
   width: "20%",
 };
 
-const colors = ["Green", "Blue", "Yellow", "Gray"];
-
-export const RemotionRoot: React.FC = () => {
+const RemotionPlayer: React.FC<{ inputProps: InputProps }> = ({
+  inputProps,
+}) => {
   const playerRef = useRef<PlayerRef>(null);
+
+  return (
+    <Player
+      ref={playerRef}
+      component={Presentation}
+      compositionWidth={800}
+      compositionHeight={450}
+      controls
+      durationInFrames={200 * 4}
+      fps={60}
+      inputProps={inputProps}
+    />
+  );
+};
+export const RemotionRoot: React.FC = () => {
   const [text, setText] = useState("");
   const [color, setColor] = useState("black");
-  const [showImage, setShowImage] = useState(false);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState<
+    number | undefined
+  >(0);
+  const [lastSlideIndex, setLastSlideIndex] = useState<number>(-1);
+  const [data, setData] = useState<Slide[]>(slidesData);
 
   const updateText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
@@ -29,40 +57,38 @@ export const RemotionRoot: React.FC = () => {
     setColor(newColor);
   };
 
-  const toggleImage = () => {
-    setShowImage(!showImage);
+  const handleApprove = () => {
+    setLastSlideIndex(currentSlideIndex || 0);
+    setCurrentSlideIndex(1);
   };
+
+  const handleReject = () => {
+    setLastSlideIndex(currentSlideIndex || 0);
+    setCurrentSlideIndex(2);
+  };
+
+  useEffect(() => {
+    if (currentSlideIndex === 1) {
+      setData(approvalSlides);
+    }
+    if (currentSlideIndex === 2) {
+      setData(rejectedSlides);
+    }
+  }, [currentSlideIndex]);
 
   return (
     <div style={styles}>
-      <input
-        style={inputStyles}
-        placeholder="Animation text"
-        onChange={updateText}
-      />
-      <ButtonGroup colors={colors} onClick={changeColor} />
-      <button
-        style={{ ...buttonStyles, backgroundColor: "Gray" }}
-        onClick={toggleImage}
-      >
-        {showImage ? "Hide track" : "Show track"}
-      </button>
-      {showImage && (
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div style={rectangleStyles}>
-            <h1 style={{ color: color }}>{text}</h1>{" "}
-          </div>
-        </div>
-      )}
-      <Player
-        ref={playerRef}
-        component={Presentation}
-        compositionWidth={800}
-        compositionHeight={450}
-        controls
-        durationInFrames={30 * 60}
-        fps={60}
-        inputProps={{ slidesData, text, color }}
+      <ButtonGroup handleApprove={handleApprove} handleReject={handleReject} />
+      <TextInput updateText={updateText} />
+      <ColorPicker changeColor={changeColor} />
+      <RemotionPlayer
+        inputProps={{
+          data,
+          text,
+          color,
+          currentSlideIndex,
+          lastSlideIndex,
+        }}
       />
     </div>
   );
